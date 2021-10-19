@@ -16,14 +16,25 @@ This would enable collecting the montage.jpg files into one folder
 (see collect.montages.folder argument)
 }
 \usage{
-make_image_figure(stack.input,
-dyes = list("Alexa 555 Confocal fusion - n000000", "Alexa 647 - Confocal fusion - n000000",),
-names = list("red", "yellow", "Composite", "Montage"),
-stack.name = "Stack.tif",
-contrast.max = list(600, 250),
-contrast.min = list(0, 0),
-path.to.fiji = "D:/Piotrek/programs/Fiji.app",
-scale.bar.mm = 0.02)
+
+use a function save_example_stack(path.to.save) to save an example stack in a path.to.save folder.
+Next, you can test the make_image_figure function on this particular Stack.tif
+\cr
+make_image_figure(stack.input = path.to.saved.stack,
+                     dyes = list("Alexa 555 Confocal fusion - n000000",
+                                 "Alexa 647 - Confocal fusion - n000000",
+                                 "DAPI Confocal - n000000"),
+                  path.to.fiji = "your_path_to_fiji",
+                     contrast.min = list(0, 0, 0),
+                     contrast.max = list(400, 400, 500),
+                     scale.bar.mm = 0.02,
+                     color.names = list("green",
+                                  "red",
+                                  "blue",
+                                  "Composite",
+                                  "Montage"),
+                     overwrite = TRUE,
+                  collect.montages.folder = "biebrza")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

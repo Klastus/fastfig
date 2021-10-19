@@ -4,13 +4,13 @@
 
 crop_location <- function(roi.input,
                           pattern.roi = "\\[\\].*.roi",
-                          path.to.fiji = "D:/Piotrek/programs/Fiji.app",
+                          path.to.fiji,
                           overwrite = TRUE,
                           dyes = list("Alexa 555 Confocal fusion - n000000",
                                       "Alexa 647 - Confocal fusion - n000000",
                                       "DAPI Confocal - n000000",
                                       "Alexa 488 - Confocal_529-24 - n000000"),
-                          all.exper.input = "D:/Piotrek/Experiments/PEG/raw_images",
+                          all.exper.input,
                           stack.name = "Stack.tif"){
 
   # Important! This function is set up for windows
@@ -28,10 +28,20 @@ crop_location <- function(roi.input,
 
   # - dyes; the list of image names taken to stack.tif
   # - overwrite: should the already created Stacks be overwritten?
-  #   FALSE is usefull when new roi are created
+  #   FALSE is useful when new roi are created
   # - stack.name: obvious
 
+  if(file.exists(paste(path.to.fiji, "/macros/crop_stack_.ijm", sep = "")) == FALSE){
+    if(dir.exists(paste(path.to.fiji, "/macros", sep = ""))){
+    file.copy(from = system.file("fiji_scripts/crop_stack_.ijm", package = "fastfig"),
+              to = paste(path.to.fiji, "/macros/crop_stack_.ijm", sep = ""),
+              overwrite = TRUE)
+    } else {
+      return("Wrong fiji path! No macro folder found!")
+    }
+  }
   setwd(path.to.fiji)
+
   command.base <- "ImageJ-win64.exe --console -macro crop_stack_.ijm"
   dirs <- dirname(list.files(roi.input,
                              pattern = pattern.roi,
@@ -88,10 +98,10 @@ make_image_figure <- function(stack.input,
                                               "grey",
                                               "Montage"),
                                  stack.name = "Stack.tif",
-                                 contrast.max = list(600, 250, 700, 1000),
+                                 contrast.max = list(0, 0, 0, 0),
                                  contrast.min = list(600, 250, 700, 1000),
                                  overwrite = TRUE,
-                                 path.to.fiji = "D:/Piotrek/programs/Fiji.app",
+                                 path.to.fiji,
                                  scale.bar.mm = 0,
                                  keep.separate.images = FALSE,
                                  scale.bar.on.separate.images = 0,
@@ -114,16 +124,26 @@ make_image_figure <- function(stack.input,
   # - stack.name; what is the name of the stack;
   # - contrast.max/contrast.min; values for adjusting the brightness/contrast
   #   The order follows the order of dyes
-  # - owerwrite = it's a precaution for unwanted ovewriting
+  # - overwrite = it's a precaution for unwanted overwriting
   #   and if you want to add new rois
   # - scale.bar.mm; either 0 or the length in mm.
   #   As of now the scale bar option is available only for pathway images,
   #   so if the image comes from different place,
   #   use 0 and provide the bar manually.
   # - scale.bar.on.separate.images; should the scale bar be on each of separate images?
-  #   with keep.sepparate.images = FALSE it make no sense to put this to 1
+  #   with keep.separate.images = FALSE it make no sense to put this to 1
   # - collect.montages; TRUE if you want to have the montages in one folder
   #   for convenient opening and eye inspection
+
+  if(file.exists(paste(path.to.fiji, "/macros/color_figure_general_.ijm", sep = "")) == FALSE){
+    if(dir.exists(paste(path.to.fiji, "/macros", sep = ""))){
+      file.copy(from = system.file("fiji_scripts/color_figure_general_.ijm", package = "fastfig"),
+                to = paste(path.to.fiji, "/macros/color_figure_general_.ijm", sep = ""),
+                overwrite = TRUE)
+    } else {
+      return("Wrong fiji path! No macro folder found!")
+    }
+  }
 
   dirs <- dirname(list.files(stack.input,
                              recursive = TRUE,
@@ -201,6 +221,10 @@ make_image_figure <- function(stack.input,
   }
 }
 
+save_example_stack <- function(path.to.save){
 
+  file.copy(from = system.file("stack_example/Stack.tif", package = "fastfig"),
+            to = paste(path.to.save, "/Stack.tif", sep = ""),
+            overwrite = TRUE)
 
-
+}
