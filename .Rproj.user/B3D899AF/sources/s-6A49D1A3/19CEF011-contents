@@ -1,0 +1,42 @@
+library(fastfig)
+#### ####
+crop_location(roi.input = "C:/Users/Piotrek/OneDrive/Pulpit/un_test",
+              overwrite = TRUE,
+              dyes = list("Alexa 555 Confocal fusion - n000000.tif",
+                          "Alexa 647 - Confocal fusion - n000000.tif",
+                          "DAPI Confocal - n000000.tif"),
+              all.exper.input = "D:/Piotrek/Experiments/PEG/processed_images")
+
+# For IFNG:
+make_image_figure(stack.input = "C:/Users/Piotrek/OneDrive/Pulpit/un_test/OSM",
+                     dyes = list("Alexa 555 Confocal fusion - n000000",
+                                 "Alexa 647 - Confocal fusion - n000000",
+                                 "DAPI Confocal - n000000"),
+                     contrast.min = list(400, 200, 600),
+                     contrast.max = list(500, 300, 700),
+                     scale.bar.mm = 0.02,
+                     color.names = list("green",
+                                  "red",
+                                  "blue",
+                                  "Composite",
+                                  "Montage"),
+                     overwrite = TRUE,
+                  collect.montages.folder = "biebrza")
+
+# For STAT3 OSM:
+color.figure.general(stack.input = "D:/Piotrek/thesis/figures/images/unmerged/OSM/",
+                     dyes = list("Alexa 555 Confocal fusion - n000000",
+                                 "Alexa 647 - Confocal fusion - n000000",
+                                 "DAPI Confocal - n000000"),
+                     contrast.min = list(0, 20, 100),
+                     contrast.max = list(200, 150, 250),
+                     scale.bar.mm = 0.02,
+                     names = list("green",
+                                  "red",
+                                  "blue",
+                                  "Composite",
+                                  "Montage"),
+                     overwrite = TRUE)
+
+collect.montages(input.path = "D:/Piotrek/thesis/figures/images/unmerged/OSM/",
+                 output.path = "D:/Piotrek/thesis/figures/images/unmerged/OSM/collected/")
