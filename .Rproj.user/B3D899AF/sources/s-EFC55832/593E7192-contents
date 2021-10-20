@@ -1,0 +1,14 @@
+os <- Sys.info()["sysname"]
+
+if(os == "Windows"){
+  source("D:/Piotrek/scripts/basic_scripts/normalize_data.R")
+}
+
+copy.IPIQA(experiment.full.name = "2021-08-26-PT151",
+           csv.name.list = c("ShrinkedNucleiMasked.csv",
+                             "CellsFiltered647.csv",
+                             "Cytoplasm647.csv",
+                             "Image.csv"),
+           project = "cells")
+
+

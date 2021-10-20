@@ -42,7 +42,22 @@ crop_location <- function(roi.input,
   }
   setwd(path.to.fiji)
 
-  command.base <- "ImageJ-win64.exe --console -macro crop_stack_.ijm"
+  os <- Sys.info()["sysname"]
+  if(os == "Windows"){
+    command.base <-
+      "ImageJ-win64.exe --console -macro crop_stack_.ijm"
+    os.specific.separator <- ' "'
+
+  } else if(os == "Darwin") {
+    command.base <-
+      "Contents/MacOS/ImageJ-macosx --console -macro crop_stack_.ijm"
+    os.specific.separator <- " '"
+
+  } else {
+    return("Your operating system is not supported.
+                 Reach Piotr Topolewski for the update")
+  }
+
   dirs <- dirname(list.files(roi.input,
                              pattern = pattern.roi,
                              full.names = TRUE,
@@ -71,7 +86,8 @@ crop_location <- function(roi.input,
 
         dye.string <- paste(dyes, collapse = ',')
 
-        command <- paste(command.base, ' "', imageJ.input, ";", imageJ.output, ";",
+        command <- paste(command.base, os.specific.separator,
+                         imageJ.input, ";", imageJ.output, ";",
                          dye.string, ";", roi, ";", sep = '')
         system(command)
 
@@ -144,6 +160,21 @@ make_image_figure <- function(stack.input,
       return("Wrong fiji path! No macro folder found!")
     }
   }
+  os <- Sys.info()["sysname"]
+  if(os == "Windows"){
+    command.base <-
+      "ImageJ-win64.exe --console --headless -macro color_figure_general_.ijm"
+    os.specific.separator <- ' "'
+  } else if(os == "Darwin") {
+    command.base <-
+      "Contents/MacOS/ImageJ-macosx --console --headless -macro color_figure_general_.ijm"
+    os.specific.separator <- " '"
+
+  } else {
+  return("Your operating system is not supported.
+                 Reach Piotr Topolewski for the update")
+    }
+
 
   dirs <- dirname(list.files(stack.input,
                              recursive = TRUE,
@@ -155,8 +186,6 @@ make_image_figure <- function(stack.input,
       cell.input <- paste(input, "/", sep="")
       cell.output <- cell.input
 
-      command.base <-
-        "ImageJ-win64.exe --console --headless -macro color_figure_general_.ijm"
 
       setwd(path.to.fiji)
       dye.string <- paste(dyes, collapse = ',')
@@ -164,7 +193,8 @@ make_image_figure <- function(stack.input,
       max.string <- paste(contrast.max, collapse = ',')
       name.string <- paste(color.names, collapse = ',')
 
-      command <- paste(command.base, ' "', cell.input, ";", cell.output, ";",
+      command <- paste(command.base, os.specific.separator,
+                       cell.input, ";", cell.output, ";",
                        stack.name, ";",
                        min.string, ";", max.string, ";", dye.string, ";",
                        name.string, ";", scale.bar.mm, ";",

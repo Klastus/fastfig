@@ -13,7 +13,7 @@ save_example_stack(path.to.save = "C:/Users/Piotrek/OneDrive/Pulpit/un_test")
 
 
 # For IFNG:
-make_image_figure(stack.input = "C:/Users/Piotrek/OneDrive/Pulpit/un_test/IFNG",
+make_image_figure(stack.input = "C:/Users/Piotrek/OneDrive/Pulpit/un_test/OSM",
                      dyes = list("Alexa 555 Confocal fusion - n000000",
                                  "Alexa 647 - Confocal fusion - n000000",
                                  "DAPI Confocal - n000000"),
