@@ -46,12 +46,14 @@ crop_location <- function(roi.input,
   if(os == "Windows"){
     command.base <-
       "ImageJ-win64.exe --console -macro crop_stack_.ijm"
-    os.specific.separator <- ' "'
+    os.specific.first.separator <- ' "'
+    os.specific.last.separator <- ";"
 
   } else if(os == "Darwin") {
     command.base <-
       "Contents/MacOS/ImageJ-macosx --console -macro crop_stack_.ijm"
-    os.specific.separator <- " '"
+    os.specific.first.separator <- " '"
+    os.specific.first.separator <- ";'"
 
   } else {
     return("Your operating system is not supported.
@@ -86,9 +88,9 @@ crop_location <- function(roi.input,
 
         dye.string <- paste(dyes, collapse = ',')
 
-        command <- paste(command.base, os.specific.separator,
+        command <- paste(command.base, os.specific.first.separator,
                          imageJ.input, ";", imageJ.output, ";",
-                         dye.string, ";", roi, ";", sep = '')
+                         dye.string, ";", roi, os.specific.last.separator, sep = '')
         system(command)
 
       } else {
@@ -164,11 +166,13 @@ make_image_figure <- function(stack.input,
   if(os == "Windows"){
     command.base <-
       "ImageJ-win64.exe --console --headless -macro color_figure_general_.ijm"
-    os.specific.separator <- ' "'
+    os.specific.first.separator <- ' "'
+    os.specific.last.separator <- ";"
   } else if(os == "Darwin") {
     command.base <-
       "Contents/MacOS/ImageJ-macosx --console --headless -macro color_figure_general_.ijm"
-    os.specific.separator <- " '"
+    os.specific.first.separator <- " '"
+    os.specific.last.separator <- ";'"
 
   } else {
   return("Your operating system is not supported.
@@ -193,12 +197,13 @@ make_image_figure <- function(stack.input,
       max.string <- paste(contrast.max, collapse = ',')
       name.string <- paste(color.names, collapse = ',')
 
-      command <- paste(command.base, os.specific.separator,
+      command <- paste(command.base, os.specific.first.separator,
                        cell.input, ";", cell.output, ";",
                        stack.name, ";",
                        min.string, ";", max.string, ";", dye.string, ";",
                        name.string, ";", scale.bar.mm, ";",
-                       scale.bar.on.separate.images, ";", sep = '')
+                       scale.bar.on.separate.images, os.specific.last.separator,
+                       sep = '')
       system(command)
 
       if(keep.separate.images == FALSE){
