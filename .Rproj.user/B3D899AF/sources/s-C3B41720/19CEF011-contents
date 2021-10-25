@@ -25,9 +25,8 @@ make_image_figure(stack.input = "C:/Users/Piotrek/OneDrive/Pulpit/un_test/OSM",
                                   "red",
                                   "blue",
                                   "Composite",
-                                  "Montage"),
-                     overwrite = TRUE,
-                  collect.montages.folder = "biebrza")
+                                  "Pontage"),
+                     overwrite = TRUE)
 
 # For STAT3 OSM:
 color.figure.general(stack.input = "D:/Piotrek/thesis/figures/images/unmerged/OSM/",

@@ -185,7 +185,9 @@ make_image_figure <- function(stack.input,
                              full.names = TRUE,
                              patter = stack.name))
   for(input in dirs){
-    montage.exists <- file.exists(paste(input, "/Montage.jpg", sep = ""))
+    montage.exists <- file.exists(paste(input, "/",
+                                        color.names[[length(color.names)]],
+                                        ".jpg", sep = ""))
     if(montage.exists == FALSE | overwrite == TRUE){
       cell.input <- paste(input, "/", sep="")
       cell.output <- cell.input
@@ -208,12 +210,15 @@ make_image_figure <- function(stack.input,
 
       if(keep.separate.images == FALSE){
         for(name in color.names){
-          if(name %in% c("Montage")){ next }
+          if(name %in% color.names[[length(color.names)]]){ next }
           file.remove(list = paste(cell.output, name, ".jpg", sep = ""))
         }
       }
     } else {
-      cat(paste("Montage.jpg in \n", input, "\nexists, skipping to next stack"))
+      cat(paste(color.names[[length(color.names)]],
+                ".jpg in \n",
+                input,
+                "\nexists, skipping to next stack"))
     }
   }
 
